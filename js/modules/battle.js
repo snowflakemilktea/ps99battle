@@ -59,10 +59,17 @@ export class Battle {
 			function _updateTick(time) {
 				const remainingTime = (battleEndTime-time)/1000|0;
 				
-				$countdown.text((remainingTime/86400|0)+":"+pad(remainingTime%86400/3600|0)+":"+pad(remainingTime%3600/60|0)+":"+pad(remainingTime%60)).prepend(
-					$("<i>",{class:"fa-regular fa-clock"})
-				);
-				$progress.width((time-battleStartTime)/(battleEndTime-battleStartTime)*100+"%");
+				if(remainingTime<0) {
+					$countdown.text("Ended").prepend(
+						$("<i>",{class:"fa-regular fa-clock"})
+					);
+					$progress.width("100%");
+				} else {
+					$countdown.text((remainingTime/86400|0)+":"+pad(remainingTime%86400/3600|0)+":"+pad(remainingTime%3600/60|0)+":"+pad(remainingTime%60)).prepend(
+						$("<i>",{class:"fa-regular fa-clock"})
+					);
+					$progress.width((time-battleStartTime)/(battleEndTime-battleStartTime)*100+"%");
+				}
 			}
 			
 			_updateTick(+new Date());
